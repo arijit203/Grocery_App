@@ -206,10 +206,10 @@ def add_tocart(username,category_id, item_id):
         unit=(item.unit).split("/")[1]
         # Perform any validation you need (e.g., checking if the quantity is available)
         if(quantity<=item.quantity):
-            user_id=current_user.id
+            user=Users.query.filter_by(username=username).first()
             # Save the cart item to the database
             
-            cart_item = Cart(category_id=category_id, item_id=item.id, user_id=user_id, username=username, quantity=quantity)
+            cart_item = Cart(category_id=category_id, item_id=item.id, user_id=user.id, username=username, quantity=quantity)
             db.session.add(cart_item)
             db.session.commit()
 
