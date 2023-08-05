@@ -18,7 +18,7 @@
     </div>                                                                  
 
     <!-- Button at the bottom -->
-    <a href="{{url_for('create_category', name=name)}}" class="btn btn-primary bottom-button">+</a>
+    <a href="{{url_for('create_category', name=name)}}" class="btn btn-primary bottom-button" title="Create new Category">+</a>
     <!-- + Button for creating a new category -->
 
     <div class="container mt-5">
@@ -86,12 +86,12 @@
                                 
                                 <br>
                                 <div class="text-center">
-                                    <a href="{{ url_for('create_item', category_id=category.category_id, name=name) }}" class="btn btn-primary">+</a>
+                                    <a href="{{ url_for('create_item', category_id=category.category_id, name=name) }}" title="Create new Item" class="btn btn-primary">+</a>
                                     <br>
                                     <br>
-                                    <a class="btn btn-success btn-block" href="{{url_for('edit_category', name=name, category_id=category.category_id)}}">Edit</a>
+                                    <a class="btn btn-success btn-block" href="{{url_for('edit_category', name=name, category_id=category.category_id)}}" title="Edit Category">Edit</a>
                                     <!-- Delete button triggers the modal -->
-                                    <a href="#" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{ category.category_id }}" data-category-id="{{ category.category_id }}">Delete</a>
+                                    <a href="#" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{ category.category_id }}" data-category-id="{{ category.category_id }}" title="Delete Category">Delete</a>
                                     <!-- Modal for Confirmation -->
                                     <div class="modal fade" id="deleteConfirmationModal{{ category.category_id }}" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel{{ category.category_id }}" aria-hidden="true">
                                         <div class="modal-dialog">

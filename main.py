@@ -8,6 +8,9 @@ from wtforms.validators import DataRequired,EqualTo,Length,NumberRange
 from datetime import datetime
 from flask_wtf.csrf import generate_csrf
 from sqlalchemy.orm import relationship
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin, login_user,LoginManager, login_required, logout_user,current_user
@@ -306,7 +309,7 @@ def delete_from_cart(username,item_id):
     return redirect(url_for('cart', username=username))
 
 class User_buy(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    buy_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_id = db.Column(db.Integer, nullable=False)
     category_name = db.Column(db.String(200), nullable=False)
     item_name = db.Column(db.String(200), nullable=False)
@@ -445,9 +448,70 @@ def manager_dashboard(name):
     return render_template("manager_dashboard.html", categories=categories, category_items_dict=category_items_dict, name=name, csrf_token=csrf_token)
     
 
-@app.route('/summary')
-def summary():
-    return render_template('summary.html')
+@app.route('/<name>/summary')
+def summary(name):
+    user_buys = User_buy.query.all()
+
+    # Process data for the first graph (category-wise utilization)
+    category_utilization = {}
+    for buy in user_buys:
+        if buy.category_name in category_utilization:
+            category_utilization[buy.category_name] += buy.quantity
+        else:
+            category_utilization[buy.category_name] = buy.quantity
+
+    # Process data for the second graph (range of products bought in the present week)
+    current_week = datetime.now().isocalendar()[1]
+    price_ranges = [0, 10, 20, 30, 40, 50, 100, 200, 500, 1000]
+    products_in_ranges = [0] * (len(price_ranges) - 1)
+    for buy in user_buys:
+        if buy.date_added.isocalendar()[1] == current_week:
+            for i in range(len(price_ranges) - 1):
+                if price_ranges[i] < buy.price <= price_ranges[i + 1]:
+                    products_in_ranges[i] += 1
+                    break
+
+    # Plot the first graph (category-wise utilization)
+    plt.figure(figsize=(8, 5))
+    bar_width = 0.5
+    bar_height = 0.2
+    plt.bar(category_utilization.keys(), category_utilization.values(), width=bar_width)
+    plt.xlabel('Category', fontsize=12)
+    plt.ylabel('Total Quantity', fontsize=12)
+    plt.title('Category-wise Utilization', fontsize=14)
+    plt.xticks(rotation=45, fontsize=10)
+    plt.yticks(fontsize=10)
+    
+    plt.tight_layout()
+    plt.savefig('static/category_utilization.png')
+    plt.close()
+
+    # Plot the second graph (range of products bought in the present week)
+    
+    data = db.session.query(User_buy.item_name, db.func.sum(User_buy.quantity)).group_by(User_buy.item_name).all()
+    
+    # Unzip the data for plotting
+    item_names, quantities = zip(*data)
+    
+    # Plot the bar graph
+    plt.figure(figsize=(8, 5))
+    plt.bar(item_names, quantities, width=bar_width)
+    plt.xlabel("Item Name", fontsize=12)
+    plt.ylabel("Quantity Purchased", fontsize=12)
+    plt.title("Summary of Items Purchased", fontsize=14)
+    plt.xticks(rotation=45, fontsize=10)
+    plt.yticks(fontsize=10)
+    plt.tight_layout()
+    
+    # Save the plot to a file
+    plot_path = "static/summary_plot.png"
+    plt.savefig(plot_path)
+    
+    # Close the plot to free up resources
+    plt.close()
+
+    return render_template('summary.html', name=name, plot_path=plot_path)
+
 
 @app.route('/logout',methods=['GET','POST'])
 @login_required

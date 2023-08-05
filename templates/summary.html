@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+    {% include "navbar_manager.html" %}
+    <div class="container mt-5">
+        <h1 class="text-center">Summary Page</h1>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Category-wise Utilization</h2>
+                        <img class="img-fluid" src="{{ url_for('static', filename='category_utilization.png') }}" alt="Category-wise Utilization">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Comparison of Quantities for Items Bought in Current Week</h2>
+                        <img class="img-fluid" src="{{ url_for('static', filename='summary_plot.png') }}" alt="Range of Products Bought in the Present Week">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
