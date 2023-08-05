@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+    <!-- navbar section -->
+    {% include "navbar_manager.html" %}
+
+    <div class="container mt-5">
+        <h2>Delete Item</h2>
+        <p>Are you sure you want to delete the item "{{ item.name }}"?</p>
+        <form method="POST" action="{{ url_for('delete_item', item_id=item.id,name=name) }}">
+            {{ csrf_token }}
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="{{ url_for('manager_dashboard',name=name) }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

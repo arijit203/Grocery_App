@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block body %}
+    <!-- navbar section -->
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+        
+    {% endfor %}
+    
+    {% include "navbar_manager.html" %}
+
+    <div class="container mt-5">
+        <h2>Creating a new Product.</h2><br>
+        <form method="POST">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.product_name.label }} {{ form.product_name(size=20, class="form-control") }}
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="{{ form.unit.id }}">{{ form.unit.label }} </label>
+                <select class="form-select" name="{{ form.unit.name }}" id="{{ form.unit.id }}">
+                    {% for value, label in form.unit.choices %}
+                        <option value="{{ value }}" {% if form.unit.data == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                {{ form.rate_per_unit.label }} {{ form.rate_per_unit(class="form-control") }}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ form.quantity.label }} {{ form.quantity(class="form-control") }}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ form.save_button(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+{% endblock %}

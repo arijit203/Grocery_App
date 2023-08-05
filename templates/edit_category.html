@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block body %}
+    <!-- navbar section -->
+    {% include "navbar_manager.html" %}
+    
+    <div class="container mt-5">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <div class="card custom-shadow">
+            <div class="card-body">
+                <h3 class="card-title">Edit Category</h3>
+                <hr>
+                <form method="POST">
+                    {{ form.csrf_token }}
+                    <div class="input-group mb-3">
+                        {{ form.category_name.label }} :
+                        {{ form.category_name(class="form-control-md rounded-1 border-1", value=category_name) }}
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

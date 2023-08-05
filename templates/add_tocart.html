@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buy Item</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add any custom styles here -->
+    <style>
+        /* Center the form on the webpage */
+        .form-tag {
+            
+            justify-content: center;
+            align-items: center;
+            height: 200vh;
+        }
+
+        
+        .custom-shadow {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Customize the shadow here */
+        }
+        .center-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                    <br>
+                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+    {% endwith %}
+        
+    {% include "navbar_user.html" %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card custom-shadow">
+                    <div class="card-body">
+    
+        
+            <h2>Buy Item</h2>
+            <h5>{{ item.name }} - {{ category.category_name }}</h5>
+            
+            
+            
+            <form method="POST" action="{{ url_for('add_tocart', item_id=item.id,category_id=category.category_id,username=username) }}">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <div class="input-group">
+                        {{ form.quantity(class="form-control", id="quantity", min="1", max=item.quantity, oninput="calculateTotal()", onchange="calculateTotal()") }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">{{ item.unit.split('/')[1] }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price ({{item.unit}}) :</label>
+                    <input class="form-control" type="text" id="price" value="{{ item.price }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="total">Total Price(Rs) :</label>
+                    <input class="form-control" type="text" id="total" value="0.00" readonly>
+                </div>
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+       
+        
+
+        
+    
+    </div></div></div></div></div>
+
+    <script>
+        function calculateTotal() {
+            const quantity = parseFloat(document.getElementById("quantity").value);
+            const price = parseFloat("{{ item.price }}");
+            const total = quantity * price;
+            document.getElementById("total").value = `${total.toFixed(2)}`;
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

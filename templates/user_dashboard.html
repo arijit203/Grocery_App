@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom CSS styles here */
+        
+        .category-container {
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+            
+             /* Light shading */
+            border-radius : 10px; /* Rounded corners */
+        }
+
+        .custom-shadow {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Customize the shadow here */
+        }
+
+        .item-container {
+            border: 1px solid gray;
+            padding: 5px;
+            margin: 5px;
+            display: inline-block;
+            border-radius: 10px; /* Rounded corners */
+            background-color: #ECF9FF; /* White background color */
+        }
+
+        .cart-image {
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body style="background-color:#EFF5F5;">
+    <!-- Added a new container for the flashed messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                    <br>
+                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+    {% endwith %}
+           
+    {% include "navbar_user.html" %}
+    <div class="container">
+        <h1>Welcome to the User Dashboard</h1>
+        
+        {% for category in categories %}
+            <div class="category-container custom-shadow" style="background-color: white;">
+                <h2>{{ category.category_name }}</h2>
+                {% for item in category_items_dict[category.category_id] %}
+                    <div class="item-container">
+                        {% if item.quantity %}
+                            <p><span><h5>{{ item.name }} :</h5></span> Price: {{ item.price }} ({{ item.unit }}) - Quantity: {{ item.quantity }}
+                               
+                                <br><br>
+                                <center>
+                                <a href="{{ url_for('buy_item', item_id=item.id,category_id=category.category_id,username=username) }}" type="button" class="btn btn-success rounded">
+                                    Buy Now
+                                </a>
+                                <a href="{{ url_for('add_tocart', item_id=item.id,category_id=category.category_id,username=username) }}" type="button" class="btn btn-warning rounded">
+                                    Add To Cart 🛒
+                                </a>
+                                
+                            </center>
+                        </p>
+                        {% else %}
+                            <p><span><h5>{{ item.name }} : </h5></span> Price: {{ item.price }}({{ item.unit }}) - Quantity: {{ item.quantity }}
+                                <br><br>
+                            <center><button class="btn btn-secondary rounded" >Out Of Stock</button>    </center>
+                            </p>
+                        {% endif %} 
+                        
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

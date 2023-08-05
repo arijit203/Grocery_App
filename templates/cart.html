@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add any custom styles here -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .cart-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .cart-item h4 {
+            margin-bottom: 5px;
+        }
+
+        .btn-place-order {
+            margin-top: 20px;
+        }
+
+        /* Add styles for review buttons */
+        .btn-review {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                    <br>
+                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+    {% endwith %}
+    {% include "navbar_user.html" %}
+    <br><br>
+    <div class="container">
+        <h2>Cart</h2>
+        {% for cart_item, item, category in cart_items %}
+        <div class="cart-item custom-shadow">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>{{ category.category_name }} - {{ item.name }}</h4>
+                    <p>Quantity: {{ cart_item.quantity }} {{item.unit.split('/')[1]}}</p>
+                    <p>Price: {{ item.price }} {{ item.unit }}</p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <!-- Add review buttons -->
+                    <a href="{{url_for('edit_cart_item',username=username,cart_item_id=cart_item.cart_id)}}" class="btn btn-primary btn-review">Edit</a>
+                    <a href="#" class="btn btn-danger btn-review" data-toggle="modal" data-target="#deleteModal{{ loop.index }}">Delete</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete confirmation modal -->
+        <!-- ... Your existing modal code ... -->
+        <div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ loop.index }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel{{ loop.index }}">Confirm Deletion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this item from the cart?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <form action="{{ url_for('delete_from_cart', username=username, item_id=item.id) }}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% if cart_items %}
+            <p>Total: {{total_price}}</p>
+            <a href="{{ url_for('place_order',username=username) }}" class="btn btn-primary btn-place-order">Place Order</a>
+
+        {% else %}
+            <br>
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+    <!-- Add the required Bootstrap and jQuery scripts here -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript function to handle cart item deletion
+        
+    </script>
+</body>
+</html>

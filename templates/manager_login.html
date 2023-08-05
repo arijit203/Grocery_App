@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <!-- Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Custom CSS (optional) -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .custom-shadow {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Customize the shadow here */
+        }
+        /* Custom CSS for extending the login button */
+        .btn-block-extended {
+            width: 100%;
+            margin: 0; /* Remove the default margin */
+        }
+    </style>
+</head>
+<body>
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+        
+    {% endfor %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card custom-shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Manager Login</h2>
+                        <form method="POST">
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form.username.label(class="form-label") }}
+                                {{ form.username(class="form-control", placeholder="Enter your username") }}
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                {{ form.password_hash.label(class="form-label") }}
+                                {{ form.password_hash(class="form-control", placeholder="Enter your password") }}
+                            </div>
+                            
+                            <br>
+                            {{ form.submit(class="btn btn-primary btn-block btn-block-extended") }}
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

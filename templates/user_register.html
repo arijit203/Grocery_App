@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block body %}
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+        
+    {% endfor %}
+    
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card custom-shadow">
+                        <div class="card-body">
+                            <h2 class="card-title text-center">Register</h2>
+                                <form  method="POST">
+                                    {{form.hidden_tag()}}
+                                    {{form.name.label(class="form-label")}}
+                                    {{form.name(class="form-control")}}
+                                    <br/>
+                                    {{form.username.label(class="form-label")}}
+                                    {{form.username(class="form-control")}}
+                                    <br/>
+                                    {{form.email.label(class="form-label")}}
+                                    {{form.email(class="form-control")}}
+                                    
+                                    <br/>
+                                    {{form.password_hash.label(class="form-label")}}
+                                    {{form.password_hash(class="form-control")}}
+                                    <!-- Display the validation error message -->
+                                    {% for error in form.password_hash.errors %}
+                                    <small class="form-text text-danger">{{ error }}</small>
+                                    {% endfor %}
+
+                                    <br/>
+                                    <br/>
+                                    {{form.password_hash2.label(class="form-label")}}
+                                    {{form.password_hash2(class="form-control")}}
+                                    
+                                    <br/>
+                                    {{ form.submit(class="btn btn-primary btn-block btn-block-extended") }}
+                                </form>
+                                <br>
+                                <center><a href="{{url_for('login')}}">Go Back To Login?</a></center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <br><br><br>
+    <table class="table table-hover table-bordered table-striped">
+        {% for our_user in our_users %}
+        <tr>
+        <td> {{ our_user.id }}. {{our_user.name}} - {{our_user.username}} - {{ our_user.email}} <br/>
+        </tr>
+        {% endfor %} 
+    </table>    
+     
+{% endblock %}

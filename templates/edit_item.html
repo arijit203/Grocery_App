@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block body %}
+    <!-- navbar section -->
+    {% include "navbar_manager.html" %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card custom-shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Edit Item</h2>
+    
+                            <form method="POST" class="mt-4">
+                                {{ form.hidden_tag() }}
+                                <div class="form-group">
+                                    <label for="item_name">Item Name</label>
+                                    {{ form.name(class="form-control", id="name") }}
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    {{ form.price(class="form-control", id="price") }}
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    {{ form.quantity(class="form-control", id="quantity") }}
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="unit">Unit</label>
+                                    {{ form.unit(class="form-select", id="unit") }}
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="category_id">Category ID</label>
+                                    {{ form.category_id(class="form-control", id="category_id") }}
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       
+                        
+{% endblock %}
