@@ -379,35 +379,6 @@ def place_order(username):
     return redirect(url_for('cart', username=username))   
 
 
-def search_categories_and_items(query):
-    # Search for categories and items whose names contain the query
-    categories = Category.query.filter(Category.category_name.ilike(f"%{query}%")).all()
-    items = Order_items.query.filter(Order_items.name.ilike(f"%{query}%")).all()
-
-    # Convert the query to a float, if possible, to handle price filtering
-    try:
-        price_query = float(query)
-    except ValueError:
-        price_query = None
-
-    # Filter items based on price, if a valid price query is provided
-    if price_query is not None:
-        items = [item for item in items if item.price == price_query]
-
-    return {"categories": categories, "items": items}
-
-@app.route("/search_items", methods=["GET"])
-def search_items():
-    query = request.args.get("query")
-
-    if not query:
-        flash("Please enter a search query.", "warning")
-        return redirect(url_for("user_dashboard"))
-
-    # Perform the search based on the query
-    results = search_categories_and_items(query)
-
-    return render_template("user_dashboard.html", categories=results["categories"], items=results["items"], query=query) 
 # #create Logout page
 @app.route('/user_logout',methods=['GET','POST'])
 @login_required
@@ -591,7 +562,7 @@ def edit_item(name,item_id):
     return render_template("edit_item.html", form=form,name=name)
 
 # Route to delete an item
-@app.route("/<name>/delete_item/<int:item_id>", methods=["POST"])
+@app.route("/<name>/delete_item/<int:item_id>", methods=["GET","POST"])
 def delete_item(name, item_id):
     item = Order_items.query.get(item_id)
     if not item:

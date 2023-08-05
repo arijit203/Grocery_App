@@ -5,38 +5,37 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* Add custom CSS styles here */
-        
+    
         .category-container {
             border: 1px solid black;
             padding: 10px;
             margin: 10px;
-            
-             /* Light shading */
-            border-radius : 10px; /* Rounded corners */
+            background-color: #F5F5F5; /* Neutral background color */
+            border-radius: 10px; /* Rounded corners */
         }
-
-        .custom-shadow {
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Customize the shadow here */
+    
+        .category-header {
+            color: #333333; /* Darker text color */
+            font-size: 1.2em; /* Larger font size */
         }
-
+    
         .item-container {
             border: 1px solid gray;
             padding: 5px;
             margin: 5px;
             display: inline-block;
             border-radius: 10px; /* Rounded corners */
-            background-color: #ECF9FF; /* White background color */
+            background-color: #FFFFFF; /* White background color */
         }
-
-        .cart-image {
-            width: 20px;
-            height: 20px;
-            margin-left: 5px;
-            vertical-align: middle;
+    
+        .button {
+            color: #000000; /* Black text color */
+            font-size: 1em; /* Medium font size */
+            border-radius: 10px; /* Rounded corners */
         }
     </style>
 </head>
-<body style="background-color:#EFF5F5;">
+<body style="background-color:#F7FFE5;">
     <!-- Added a new container for the flashed messages -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
