@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
-    <!-- Bootstrap CSS link -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <!-- Custom CSS (optional) -->
+    
     <link rel="stylesheet" href="styles.css">
     <style>
         .custom-shadow {
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Customize the shadow here */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); 
         }
-        /* Custom CSS for extending the login button */
+        
         .btn-block-extended {
             width: 100%;
-            margin: 0; /* Remove the default margin */
+            margin: 0; 
         }
     </style>
 </head>
@@ -50,6 +50,9 @@
                                 <span>Don't have an account?</span>
                                 <a href="{{url_for('add_user')}}" class="btn btn-success ml-2">Register</a>
                             </div>
+                            <div>
+                            <center><a href="/">Return to Front Page</a></center>
+                        </div>
                         </form>
                     </div>
                 </div>

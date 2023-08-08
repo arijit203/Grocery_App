@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <!-- navbar section -->
+    
     {% for message in get_flashed_messages() %}
     <div class="alert alert-primary alert-dismissible fade show" role="alert">
         <strong>{{message}}</strong> 
@@ -12,14 +12,12 @@
       
     <div class="container mt-5">
         <h2>Categories and Items Available</h2>
-        <form>
-            <!-- Form fields go here -->
-        </form>
+        
     </div>                                                                  
 
-    <!-- Button at the bottom -->
+    
     <a href="{{url_for('create_category', name=name)}}" class="btn btn-primary bottom-button" title="Create new Category">+</a>
-    <!-- + Button for creating a new category -->
+    
 
     <div class="container mt-5">
         {% if categories %}
@@ -29,9 +27,7 @@
                         <div class="card border-primary" style="background-color: #f2f2f2;">
                             <div class="card-body">
                                 <h5 class="card-title text-center">{{ category.category_name }}</h5>
-                                <!-- Add more information about the category if needed -->
-
-                                <!-- Display items for each category -->
+                                
                                 {% set category_items = category_items_dict[category.category_id] %}
                                 {% if category_items %}
                                     <ul class="list-group">
@@ -42,6 +38,8 @@
                                                 Price : {{ item.price }} {{ item.unit }}  
                                                 <br>
                                                 Quantity Available : {{ item.quantity }}
+                                                <br>
+                                                MFD : {{ item.MFD.strftime("%Y-%m-%d") }}
                                             
                                                 <div class="dropdown">
                                                     <br>
@@ -50,7 +48,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="actionsDropdown{{ item.id }}">
                                                         <li><a class="dropdown-item" href="{{ url_for('edit_item', item_id=item.id, category_id=category.category_id, name=name) }}">Edit Item</a></li>
-                                                        <!-- Delete button triggers the modal -->
+                                                        
                                                         
                                                         
 
@@ -60,7 +58,7 @@
                                                     </ul>
                                                 </div>
                                             </li>
-                                            <!-- Modal for Deleting an Item -->
+                                            
                                             <div class="modal fade" id="deleteItemConfirmationModal{{ item.id }}" tabindex="-1" aria-labelledby="deleteItemConfirmationModalLabel{{ item.id }}" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -90,9 +88,9 @@
                                     <br>
                                     <br>
                                     <a class="btn btn-success btn-block" href="{{url_for('edit_category', name=name, category_id=category.category_id)}}" title="Edit Category">Edit</a>
-                                    <!-- Delete button triggers the modal -->
+                                    
                                     <a href="#" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{ category.category_id }}" data-category-id="{{ category.category_id }}" title="Delete Category">Delete</a>
-                                    <!-- Modal for Confirmation -->
+                                    
                                     <div class="modal fade" id="deleteConfirmationModal{{ category.category_id }}" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel{{ category.category_id }}" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">

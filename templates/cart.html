@@ -3,7 +3,7 @@
 <head>
     <title>Cart</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Add any custom styles here -->
+    
     <style>
         body {
             background-color: #f8f9fa;
@@ -25,7 +25,7 @@
             margin-top: 20px;
         }
 
-        /* Add styles for review buttons */
+        
         .btn-review {
             margin-top: 5px;
         }
@@ -51,22 +51,29 @@
         <h2>Cart</h2>
         {% for cart_item, item, category in cart_items %}
         <div class="cart-item custom-shadow">
-            <div class="row">
-                <div class="col-md-6">
+            <div class="row align-items-center">
+                <div class="col-md-4">
                     <h4>{{ category.category_name }} - {{ item.name }}</h4>
-                    <p>Quantity: {{ cart_item.quantity }} {{item.unit.split('/')[1]}}</p>
+                </div>
+                <div class="col-md-2">
+                    <p>Quantity: {{ cart_item.quantity }} {{ item.unit.split('/')[1] }}</p>
+                </div>
+                <div class="col-md-2">
                     <p>Price: {{ item.price }} {{ item.unit }}</p>
                 </div>
-                <div class="col-md-6 text-right">
-                    <!-- Add review buttons -->
-                    <a href="{{url_for('edit_cart_item',username=username,cart_item_id=cart_item.cart_id)}}" class="btn btn-primary btn-review">Edit</a>
-                    <a href="#" class="btn btn-danger btn-review" data-toggle="modal" data-target="#deleteModal{{ loop.index }}">Delete</a>
+                <div class="col-md-4 text-right">
+                    
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="{{ url_for('edit_cart_item', username=username, cart_item_id=cart_item.cart_id) }}">Edit</a>
+                        <span style="margin-left: 5px;"></span> 
+                        <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal{{ loop.index }}">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>
-
+        
         <!-- Delete confirmation modal -->
-        <!-- ... Your existing modal code ... -->
+        
         <div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ loop.index }}" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -91,20 +98,16 @@
         {% endfor %}
         {% if cart_items %}
             <p>Total: {{total_price}}</p>
-            <a href="{{ url_for('place_order',username=username) }}" class="btn btn-primary btn-place-order">Place Order</a>
+            <a href="{{ url_for('place_order', username=username) }}" class="btn btn-primary btn-place-order">Place Order</a>
 
         {% else %}
             <br>
             <p>Your cart is empty.</p>
         {% endif %}
     </div>
-    <!-- Add the required Bootstrap and jQuery scripts here -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        // JavaScript function to handle cart item deletion
-        
-    </script>
 </body>
 </html>

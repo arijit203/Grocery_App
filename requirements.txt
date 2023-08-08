@@ -1,0 +1,15 @@
+pip install the following modules:
+
+DateTime==5.2
+Flask==2.3.2
+Flask-Login==0.6.2
+Flask-SQLAlchemy==3.0.5
+Flask-WTF==1.1.1
+Jinja2==3.1.2
+matplotlib==3.7.2
+numpy==1.25.2
+SQLAlchemy==2.0.19
+Werkzeug==2.3.6
+wtf==0.1
+WTForms==3.0.1
+wtforms-validators==1.0.0

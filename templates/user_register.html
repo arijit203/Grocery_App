@@ -28,7 +28,7 @@
                                     <br/>
                                     {{form.password_hash.label(class="form-label")}}
                                     {{form.password_hash(class="form-control")}}
-                                    <!-- Display the validation error message -->
+                                    
                                     {% for error in form.password_hash.errors %}
                                     <small class="form-text text-danger">{{ error }}</small>
                                     {% endfor %}
@@ -49,12 +49,6 @@
                 </div>
             </div>
     <br><br><br>
-    <table class="table table-hover table-bordered table-striped">
-        {% for our_user in our_users %}
-        <tr>
-        <td> {{ our_user.id }}. {{our_user.name}} - {{our_user.username}} - {{ our_user.email}} <br/>
-        </tr>
-        {% endfor %} 
-    </table>    
+    
      
 {% endblock %}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        
+        .container {
+            margin-top: 20px;
+        }
+
+        .category-container {
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .item-container {
+            border: 1px solid gray;
+            padding: 5px;
+            margin: 5px;
+            display: inline-block;
+            border-radius: 10px;
+            background-color: #ECF9FF;
+        }
+
+        .out-of-stock-btn {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body style="background-color:#F7FFE5;">
+    {% include "navbar_user.html" %}
+
+    <div class="container">
+        {% if category_results %}
+            <h2>Matching Categories</h2>
+            <div class="row">
+                {% for category in category_results %}
+                    <div class="col-md-4">
+                        <div class="category-container custom-shadow">
+                            <h3>{{ category.category_name }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if item_results %}
+            <h2>Matching Items</h2>
+            <div class="row">
+                {% for item in item_results %}
+                    <div class="col-md-4">
+                        <div class="item-container custom-shadow">
+                            <h4>{{ item.name }}</h4>
+                            <p>
+                                Price: {{ item.price }} ({{ item.unit }}) - Quantity: {{ item.quantity }}
+                                <br>
+                                MFD: {{ item.MFD.strftime("%d-%m-%Y") }}
+                                <br><br>
+                                {% if item.quantity %}
+                                    <center>
+                                        <a href="#" class="btn btn-success rounded">
+                                            Buy Now
+                                        </a>
+                                        <a href="#" class="btn btn-warning rounded">
+                                            Add To Cart 🛒
+                                        </a>
+                                    </center>
+                                {% else %}
+                                    <center>
+                                        <button class="btn out-of-stock-btn rounded">Out Of Stock</button>
+                                    </center>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if not category_results and not item_results %}
+            <p>No matching results found.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

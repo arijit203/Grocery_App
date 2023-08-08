@@ -4,19 +4,19 @@
     <title>User Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Add custom CSS styles here */
+        
         
         .category-container {
             border: 1px solid black;
             padding: 10px;
             margin: 10px;
             
-             /* Light shading */
-            border-radius : 10px; /* Rounded corners */
+             
+            border-radius : 10px; 
         }
 
         .custom-shadow {
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Customize the shadow here */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); 
         }
 
         .item-container {
@@ -24,8 +24,8 @@
             padding: 5px;
             margin: 5px;
             display: inline-block;
-            border-radius: 10px; /* Rounded corners */
-            background-color: #ECF9FF; /* White background color */
+            border-radius: 10px; 
+            background-color: #ECF9FF; 
         }
 
         .cart-image {
@@ -37,7 +37,7 @@
     </style>
 </head>
 <body style="background-color:#F7FFE5;">
-    <!-- Added a new container for the flashed messages -->
+    
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="alert alert-primary alert-dismissible fade show" role="alert">
@@ -52,41 +52,80 @@
         {% endif %}
     {% endwith %}
            
+    
     {% include "navbar_user.html" %}
-    <div class="container">
-        <h1>Welcome to the User Dashboard</h1>
+
+    <div class="container mt-5">
+        <h2>Welcome to Your Dashboard</h2>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search categories and items" id="searchInput">
+            <button class="btn btn-primary" type="button" onclick="searchItems()">Search</button>
+        </div>
         
+
         {% for category in categories %}
             <div class="category-container custom-shadow" style="background-color: white;">
                 <h2>{{ category.category_name }}</h2>
                 {% for item in category_items_dict[category.category_id] %}
                     <div class="item-container">
                         {% if item.quantity %}
-                            <p><span><h5>{{ item.name }} :</h5></span> Price: {{ item.price }} ({{ item.unit }}) - Quantity: {{ item.quantity }}
-                               
+                            <p>
+                                <span><h5>{{ item.name }} :</h5></span> Price: {{ item.price }} ({{ item.unit }}) - Quantity: {{ item.quantity }}
                                 <br><br>
                                 <center>
-                                <a href="{{ url_for('buy_item', item_id=item.id,category_id=category.category_id,username=username) }}" type="button" class="btn btn-success rounded">
-                                    Buy Now
-                                </a>
-                                <a href="{{ url_for('add_tocart', item_id=item.id,category_id=category.category_id,username=username) }}" type="button" class="btn btn-warning rounded">
-                                    Add To Cart 🛒
-                                </a>
-                                
-                            </center>
-                        </p>
-                        {% else %}
-                            <p><span><h5>{{ item.name }} : </h5></span> Price: {{ item.price }}({{ item.unit }}) - Quantity: {{ item.quantity }}
-                                <br><br>
-                            <center><button class="btn btn-secondary rounded" >Out Of Stock</button>    </center>
+                                    <a href="{{ url_for('buy_item', item_id=item.id, category_id=category.category_id, username=username) }}" type="button" class="btn btn-success rounded">
+                                        Buy Now
+                                    </a>
+                                    <a href="{{ url_for('add_tocart', item_id=item.id, category_id=category.category_id, username=username) }}" type="button" class="btn btn-warning rounded">
+                                        Add To Cart 🛒
+                                    </a>
+                                </center>
                             </p>
-                        {% endif %} 
-                        
+                        {% else %}
+                            <p>
+                                <span><h5>{{ item.name }} : </h5></span> Price: {{ item.price }}({{ item.unit }}) - Quantity: {{ item.quantity }}
+                                <br><br>
+                                <center>
+                                    <button class="btn btn-secondary rounded">Out Of Stock</button>
+                                </center>
+                            </p>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
         {% endfor %}
     </div>
+
+    <script>
+        function searchItems() {
+            var input = document.getElementById('searchInput').value.toLowerCase();
+            var categoryContainers = document.getElementsByClassName('category-container');
+
+            for (var i = 0; i < categoryContainers.length; i++) {
+                var categoryTitle = categoryContainers[i].getElementsByTagName('h2')[0].innerText.toLowerCase();
+                var itemContainers = categoryContainers[i].getElementsByClassName('item-container');
+
+                var categoryVisible = false;
+
+                for (var j = 0; j < itemContainers.length; j++) {
+                    var itemName = itemContainers[j].getElementsByTagName('h5')[0].innerText.toLowerCase();
+
+                    if (categoryTitle.includes(input) || itemName.includes(input)) {
+                        categoryContainers[i].style.display = '';
+                        itemContainers[j].style.display = '';
+                        categoryVisible = true;
+                    } else {
+                        itemContainers[j].style.display = 'none';
+                    }
+                }
+
+                if (!categoryVisible) {
+                    categoryContainers[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
